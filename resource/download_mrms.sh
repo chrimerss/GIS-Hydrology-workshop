@@ -1,5 +1,5 @@
-start_date=$(date -I -d "2022-07-31 00:00:00") || exit -1
-end_date=$(date -I -d "2022-08-02 00:00:00") || exit -1
+start_date=$(date -I -d "$1") || exit -1
+end_date=$(date -I -d "$2") || exit -1
 
 d="$start_date"
 while [[ "$d" < "$end_date" ]]; do
