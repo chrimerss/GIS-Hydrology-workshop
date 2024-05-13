@@ -6,7 +6,7 @@ def basic(columns=1):
     HEIGHT= 8.9/columns
 
     #=======Font setup=======#
-    plt.rc('font', family='Arial')
+    # plt.rc('font', family='Arial')
     plt.rc('font', size=15)
     plt.rc('xtick', labelsize=16)
     plt.rc('ytick', labelsize=16)
