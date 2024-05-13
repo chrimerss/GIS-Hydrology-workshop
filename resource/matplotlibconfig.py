@@ -32,8 +32,8 @@ def basic(columns=1):
     plt.rc('lines', markersize=6)
     plt.rc('legend', fontsize=14)
     plt.rc('mathtext', fontset='stix')
-    plt.rc('mathtext', it= 'Arial:italic')
-    plt.rc('mathtext', rm= 'Arial')
+    # plt.rc('mathtext', it= 'Arial:italic')
+    # plt.rc('mathtext', rm= 'Arial')
 
 
 def custom_lineplot(ax, x, y, error, xlims, ylims, color='red'):
