@@ -105,7 +105,6 @@ def HBVMod( Par,forcing,Sin, hydrograph):
     Sin=sum(Sin) #initial storage
     WB=sum(Prec)-sum(Eidt)-sum(Eadt) -sum(Qtotdt)- Sf +Sin
 	# Offset Q
-    print(Si)
     Weigths=Weigfun(Tlag)
 	
     Qm = np.convolve(Qtotdt,Weigths)
