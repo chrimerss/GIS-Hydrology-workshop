@@ -15,8 +15,8 @@ def HBVMod( Par,forcing,Sin, hydrograph):
     Ks= Par[7]
 
     
-    Prec=forcing[:,1]
-    Qo=forcing[:,0]
+    Prec=forcing[:,0]
+    Qo=forcing[:,1]
     Etp=forcing[:,2]
 
 
@@ -43,16 +43,16 @@ def HBVMod( Par,forcing,Sin, hydrograph):
     for i in range(0,tmax):
         Pdt=Prec[i]*dt
         Epdt=Etp[i]*dt
-        # Interception Reservoir
+	    # Interception Reservoir
         if Pdt>0:
-            Si[i]=Si[i]+ Pdt
+            Si[i]=Si[i]+Pdt
             if Si[i]> Imax:
                 Pedt = Si[i] - Imax
                 Si[i] = Imax
             else:
                 Si[i]=Si[i]
                 Pedt = 0
-                Eidt[i]= 0
+            Eidt[i]= 0
         else:
 		# Evaporation only when there is no rainfall
             Pedt= 0
@@ -100,27 +100,36 @@ def HBVMod( Par,forcing,Sin, hydrograph):
 	    
         Qtotdt[i]=Qsdt+Qfdt
 
+
 	# Check Water Balance
     Sf=Si[-1]+Ss[-1]+Sf[-1]+Su[-1] #final storage
     Sin=sum(Sin) #initial storage
     WB=sum(Prec)-sum(Eidt)-sum(Eadt) -sum(Qtotdt)- Sf +Sin
 	# Offset Q
+
     Weigths=Weigfun(Tlag)
 	
     Qm = np.convolve(Qtotdt,Weigths)
     Qm=Qm[0:tmax]
+    # Calculate objective
+    ind=np.where(Qo>=0)
+    QoAv=np.mean(Qo[ind])
+    ErrUp=sum((Qm[ind]-Qo[ind])**2)
+    ErrDo=sum((Qo[ind]-QoAv)**2)
+    Obj=1-ErrUp/ErrDo
     if hydrograph == 'TRUE':
 	## Plot
-	# hour=1:tmax\
+	# hour=1:tmax
         plt.figure
         plt.plot(range(0,len(Qo)),Qo)
         plt.plot(range(0,len(Qm)),Qm)
+        plt.legend(['Observed','Modeled'])
         plt.xlabel("Time series")
         plt.ylabel("Discharge mm/day")
         plt.title("Comparison of measured discharge and modelling")
         plt.show()
-
-    return(Qm)
+#    print(np.corrcoef([Qo,Qm]))
+    return(Obj,Qm)
 
 	
 	# leg['Qobs','Qmod']
