@@ -10,7 +10,7 @@ def HBVMod( Par,forcing,Sin, hydrograph):
     Sumax=Par[2]
     beta=Par[3]
     Pmax= Par[4]
-    Tlag= Par[5]
+    Tlag= int(Par[5])
     Kf= Par[6]
     Ks= Par[7]
 
